@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#8e2d6b" />
+  <meta name="description" content="Contabilidad de CENTRO MIRE - control de caja e IVA, funciona sin internet" />
+  <title>CENTRO MIRE · Contabilidad</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="CENTRO MIRE" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Pantalla de autenticación -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand-logo">CM</div>
+        <h1>CENTRO MIRE</h1>
+        <p class="brand-sub">Contabilidad · Control de caja e IVA</p>
+      </div>
+      <div id="auth-content"></div>
+    </div>
+    <p class="auth-foot">Tus datos se guardan solo en este dispositivo. Funciona sin internet.</p>
+  </div>
+
+  <!-- App principal -->
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="topbar-title">
+        <span class="topbar-logo">CM</span>
+        <div>
+          <strong id="tb-business">CENTRO MIRE</strong>
+          <small id="tb-user"></small>
+        </div>
+      </div>
+      <button id="btn-logout" class="icon-btn" title="Cerrar sesión">Salir</button>
+    </header>
+
+    <main id="view" class="view"></main>
+
+    <nav class="tabbar" id="tabbar"></nav>
+  </div>
+
+  <!-- Contenedor de modales / toasts -->
+  <div id="modal-root"></div>
+  <div id="toast-root"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/negocio.js"></script>
+  <script src="js/dueno.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) {
+          console.warn('SW no registrado:', e);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

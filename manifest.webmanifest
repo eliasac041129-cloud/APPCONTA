@@ -1,0 +1,17 @@
+{
+  "name": "CENTRO MIRE · Contabilidad",
+  "short_name": "CENTRO MIRE",
+  "description": "Control de caja e IVA para el negocio de cosmiatría. Funciona sin internet.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#8e2d6b",
+  "theme_color": "#8e2d6b",
+  "lang": "es-MX",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
