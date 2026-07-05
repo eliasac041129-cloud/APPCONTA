@@ -28,7 +28,8 @@
       }),
       products: [],
       sales: [],
-      purchases: []
+      purchases: [],
+      closures: []
     };
   }
 
@@ -42,7 +43,7 @@
     } catch (e) { DB = fresh(); }
     if (!DB.config) DB.config = fresh().config;
     if (typeof DB.config.ivaRate !== 'number') DB.config.ivaRate = 0.16;
-    ['users', 'services', 'products', 'sales', 'purchases'].forEach(function (k) {
+    ['users', 'services', 'products', 'sales', 'purchases', 'closures'].forEach(function (k) {
       if (!Array.isArray(DB[k])) DB[k] = [];
     });
     return DB;
@@ -111,6 +112,23 @@
     purchases: function () { return load().purchases; },
     addPurchase: function (p) { p.id = uid(); load().purchases.unshift(p); save(); return p; },
     removePurchase: function (id) { DB.purchases = DB.purchases.filter(function (x) { return x.id !== id; }); save(); },
+
+    // ---- Cierres de mes (archivo de balances, NO destructivo) ----
+    closures: function () { return load().closures; },
+    getClosure: function (month) { return load().closures.find(function (c) { return c.month === month; }); },
+    addClosure: function (c) {
+      // Si ya existe un cierre de ese mes, se reemplaza (re-cierre)
+      DB.closures = load().closures.filter(function (x) { return x.month !== c.month; });
+      c.id = uid();
+      DB.closures.push(c);
+      DB.closures.sort(function (a, b) { return a.month < b.month ? 1 : -1; });
+      save();
+      return c;
+    },
+    removeClosure: function (month) {
+      DB.closures = load().closures.filter(function (x) { return x.month !== month; });
+      save();
+    },
 
     exportJSON: function () { return JSON.stringify(load(), null, 2); },
     importJSON: function (text) { DB = JSON.parse(text); save(); },
