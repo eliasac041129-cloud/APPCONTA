@@ -12,6 +12,7 @@
   function tabsFor(user) {
     var base = [
       { id: 'caja', label: 'Caja', ic: '🧾' },
+      { id: 'clientes', label: 'Clientes', ic: '🧑‍🤝‍🧑' },
       { id: 'catalogo', label: 'Catálogo', ic: '💠' }
     ];
     if (user.role === 'dueno') {
@@ -121,6 +122,7 @@
 
     switch (currentTab) {
       case 'caja': Negocio.renderCaja(view); break;
+      case 'clientes': Clientes.render(view); break;
       case 'catalogo': Negocio.renderCatalogo(view); break;
       case 'dueno': Dueno.render(view); break;
       case 'config': Config.render(view); break;

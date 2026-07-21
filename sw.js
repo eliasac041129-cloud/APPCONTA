@@ -4,7 +4,7 @@
    Sube el número de versión cuando cambies archivos para forzar
    la actualización en los dispositivos.
    ============================================================ */
-var CACHE = 'centromire-v2';
+var CACHE = 'centromire-v3';
 var ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ var ASSETS = [
   './js/auth.js',
   './js/ui.js',
   './js/negocio.js',
+  './js/clientes.js',
   './js/dueno.js',
   './js/config.js',
   './js/app.js',

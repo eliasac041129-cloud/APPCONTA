@@ -114,6 +114,7 @@
       '<div class="note info">💡 <div><b>No olvides cobrar el IVA</b> cuando el cliente pida factura o pague con tarjeta/transferencia.</div></div>' +
       '<label>Nombre del cliente</label>' +
       '<input id="v-cliente" placeholder="Ej. María López" autocomplete="off" />' +
+      '<div id="v-cli-sug"></div>' +
       '<label>Fecha</label>' +
       '<input id="v-fecha" type="date" value="' + UI.todayISO() + '" />' +
       '<label>Agregar servicio o producto</label>' +
@@ -169,6 +170,33 @@
       });
 
       m.querySelector('#v-fact').onchange = function (e) { invoiced = e.target.checked; };
+
+      /* --- Sugerencia anti-duplicados: detecta clientes ya existentes --- */
+      var clienteEl = m.querySelector('#v-cliente');
+      var sugBox = m.querySelector('#v-cli-sug');
+      function drawSug() {
+        var sug = (global.Clientes ? Clientes.sugerencias(clienteEl.value) : []);
+        if (!sug.length) { sugBox.innerHTML = ''; return; }
+        var exact = sug.filter(function (s) { return s.exact; })[0];
+        if (exact) {
+          sugBox.innerHTML = '<div class="note ok" style="margin-top:8px">✅ <div>Ya tienes registrado a <b>' +
+            UI.esc(exact.name) + '</b> (' + exact.visits + (exact.visits === 1 ? ' visita' : ' visitas') +
+            '). Esta venta se sumará a su historial.</div></div>';
+          return;
+        }
+        var chips = sug.map(function (s) {
+          return '<button type="button" class="chip" data-name="' + UI.esc(s.name) + '">' +
+            UI.esc(s.name) + '<span class="chip-price">' + s.visits + (s.visits === 1 ? ' visita' : ' visitas') + '</span></button>';
+        }).join('');
+        sugBox.innerHTML =
+          '<div class="note warn" style="margin-top:8px">🔎 <div><b>¿Te refieres a un cliente que ya existe?</b> ' +
+          'Para no duplicarlo por un error de escritura, tócalo y se usará el mismo nombre.</div></div>' +
+          '<div class="chip-grid">' + chips + '</div>';
+        sugBox.querySelectorAll('[data-name]').forEach(function (b) {
+          b.onclick = function () { clienteEl.value = b.getAttribute('data-name'); drawSug(); };
+        });
+      }
+      clienteEl.addEventListener('input', drawSug);
 
       function drawIvaOpt() {
         if (method === 'efectivo') {
